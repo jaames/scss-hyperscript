@@ -1,0 +1,17 @@
+@import '../core';
+@import '../util/math.scss';
+
+@function SvgRoot($props, $children...) {
+  $width: map-get($props, width);
+  $height: map-get($props, height);
+  
+  @return h(svg, 
+    (
+      width: $width,
+      height: $height,
+      viewBox: '0 0 #{strip-units($width)} #{strip-units($height)}',
+      xmlns: 'http://www.w3.org/2000/svg'
+    ), 
+    $children...
+  );
+}

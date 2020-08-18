@@ -1,0 +1,34 @@
+// Render a hyperscript node tree to an XML string
+@function render($node) {
+  // Handle text nodes
+  @if type-of($node) == string {
+    @return $node;
+  }
+  $tag: map-get($node, tag);
+  $attrs: map-get($node, attrs);
+  $children: map-get($node, children);
+  // Open starting tag
+  $result: '<#{$tag}';
+  // Add attributes if present
+  @if length($attrs) > 0 {
+    @each $key, $value in $attrs {
+      $result: $result + ' ' + '#{$key}="#{$value}"';
+    }
+  }
+  // Recursively render children
+  @if length($children) > 0 {
+    // Close current tag
+    $result: $result + '>';
+    // Render child nodes
+    @each $childNode in $children {
+      $result: $result + '#{render($childNode)}';
+    }
+    // Add end tag
+    $result: $result + '<\/#{$tag}>';
+  }
+  @else {
+    // If there are no children, then the start tag can be self-closing
+    $result: $result + '\/>';
+  }
+  @return $result;
+}

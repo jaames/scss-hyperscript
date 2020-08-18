@@ -1,0 +1,13 @@
+@import './hyperscript.scss';
+
+@debug render-svg(SvgRoot((
+  width: 200,
+  height: 200
+), 
+  h(rect, (
+    width: 10,
+    height: 10,
+    x: 0,
+    y: 0
+  ))
+));

@@ -1,0 +1,26 @@
+// Utility to make a string url-safe (bare minimum approach)
+@function urlencode($str) {
+  $tokens: (
+    '<': '%3C',
+    '>': '%3E',
+    '#': '%23',
+    '"': '\'',
+    '&': '%26'
+  );
+  $result: '';
+  // Loop through the string, replacing characters if necessary
+  @for $i from 1 through str-length($str) {
+    $char: str-slice($str, $i, $i);
+    @if map-has-key($tokens, $char) {
+      $char: map-get($tokens, $char);
+    }
+    $result: $result + $char;
+  }
+  @return $result;
+}
+
+// Utility to render hyperscript as an inline SVG string
+@function render-svg($node) {
+  $str: urlencode(render($node));
+  @return url('data:image/svg+xml;charset=utf8,' + $str);
+}
